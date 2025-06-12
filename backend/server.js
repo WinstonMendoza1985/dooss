@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const MONGO_URI = "mongodb+srv://winstonmendoza1985:ujcnIg2YLp6iycoc@cluster0.pmyo8cl.mongodb.net/dental_clinic";
-const PORT_URI = 3007;
+const MONGO_URI = process.env.MONGO_URL;
+const PORT_URI = process.env.PORT_URL;
 
 // Set up rate limiter: maximum of 100 requests per 15 minutes per IP
 const limiter = rateLimit({
