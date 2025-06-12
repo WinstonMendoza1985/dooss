@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Link, Grid, Alert } from '@mui/material';
 import axios from 'axios';
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState({error:null,message:''});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,8 +19,10 @@ const Login = ({ setToken }) => {
       //Store User ID
       localStorage.removeItem('userID');
       localStorage.setItem('userID', data.userId);
+      
     } catch (err) {
       console.error(err);
+      setMessage({error:true,message:'Failed to logged in. Kindly check you email & password.'});
     }
   };
 
@@ -64,6 +67,11 @@ const Login = ({ setToken }) => {
             <Link href="/register" variant="body2">Regsiter</Link>
           </Box>
         </form>
+        {message.error && (
+            <Grid item xs={12}>
+              <Alert severity="warning">{message.message}</Alert>
+            </Grid>
+          )}
       </Box>
     </Container>
   );

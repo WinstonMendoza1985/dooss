@@ -5,6 +5,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { format, isBefore } from 'date-fns';
+import { useEffect } from 'react';
 
 const UserRegister = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', first_name: '', last_name: '', phone: '', date_of_birth: '' });
@@ -29,6 +30,10 @@ const UserRegister = () => {
       setError(err.response?.data?.message || 'Registration failed');
     }
   };
+
+  useEffect(()=>{
+    setFormData(prev => ({ ...prev, date_of_birth: selectedDate }));
+  },[selectedDate])
 
   return (
     <Container maxWidth="lg">
@@ -119,7 +124,7 @@ const UserRegister = () => {
                 type="date"
                 name="date_of_birth"
                 InputLabelProps={{ shrink: true }}
-                value={selectedDate}
+                value={formData.date_of_birth}
                 onChange={(e) => setSelectedDate(e.target.value)}
                 inputProps={{
                     max: format(new Date(), 'yyyy-MM-dd'),

@@ -2,13 +2,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container } from "@mui/material"
 import HomePage from "./components/HomePage"
 import BookingPage from './components/BookingPage';
-import UserList from './components/UserList';
+import UserList from './components/UserProfile/UserList';
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile/UserProfile';
 import { useState, useEffect } from 'react';
 import UserRegister from './components/UserProfile/UserRegister';
 import Logout from './components/Logout';
+import Dentists from './components/DentistProfile/Dentists';
+import NewDentist from './components/DentistProfile/NewDentist';
 
 function App() {
   const [token, setToken] = useState(null);
@@ -31,8 +33,10 @@ function App() {
           <Route path="/book" element={isLogin ? <BookingPage />:<Login setToken={setToken} />} />
           <Route path="/dashboard" element={isLogin ? <Dashboard /> : <Login setToken={setToken} />} />
           <Route path="/users" element={isLogin ?<UserList />: <Login setToken={setToken} />} />
+          <Route path="/dentists" element={isLogin ?<Dentists />: <Login setToken={setToken} />} />
+          <Route path="/dentists/new" element={isLogin ?<NewDentist />: <Login setToken={setToken} />} />
           <Route path="/profile" element={isLogin ? <UserProfile token={tok} /> : <Login setToken={setToken} />} />
-          <Route path="/login" element={isLogin ? <UserProfile token={tok} /> : <Login setToken={setToken} />} />
+          <Route path="/login" element={isLogin ? <Dashboard /> : <Login setToken={setToken} />} />
           <Route path="/logout" element={<Logout setToken={setToken} />} />
           <Route path="/register" element={<UserRegister />} />
         </Routes>

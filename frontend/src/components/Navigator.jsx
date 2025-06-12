@@ -28,17 +28,18 @@ const Navigator = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" sx={{ flexGrow: 1, color: '#fff !important' }} component={Link} to='/'>
           DOOSS
         </Typography>
 
         <Button color="inherit" href='/book'>Book</Button>
         <Button color="inherit" href='/dashboard'>Dashboard</Button>
-
+        <Button color="inherit" href='/logout'><ExitToAppIcon/></Button>
         <Button
           color="inherit"
           endIcon={<ArrowDropDownIcon />}
           onClick={handleAdminClick}
+          sx={{marginLeft:2}}
         >
           <AdminPanelSettingsIcon />
         </Button>
@@ -55,11 +56,12 @@ const Navigator = () => {
             vertical: 'top',
             horizontal: 'left',
           }}
-        >
-          <MenuItem onClick={handleAdminClose} component={Link} to="/users">Users List</MenuItem>
+        > 
+          <MenuItem onClick={handleAdminClose} component={Link} to="/profile">My Profile</MenuItem>
+          <MenuItem onClick={handleAdminClose} component={Link} to="/users">Client List</MenuItem>
           <MenuItem onClick={handleAdminClose} component={Link} to="/dentists">Dentist List</MenuItem>
+          <MenuItem onClick={handleAdminClose} component={Link} to="/dentists/new">Create New Dentist</MenuItem>
         </Menu>
-        <Button color="inherit" href='/logout'><ExitToAppIcon/></Button>
       </Toolbar>
     </AppBar>
   );

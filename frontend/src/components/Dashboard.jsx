@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { format, parseISO } from 'date-fns';
+import { Link } from 'react-router-dom';
 import Navigator from './Navigator';
 
 const Dashboard = ({ userId }) => {
@@ -97,7 +98,12 @@ const Dashboard = ({ userId }) => {
           <CircularProgress />
         </Box>
       ) : appointments.length === 0 ? (
-        <Typography>No upcoming appointments.</Typography>
+        <Box textAlign="center">
+          <Button variant="contained" component={Link} to='/book'>Book an appointment</Button>
+          <Typography>-- --</Typography>
+          <Typography>No upcoming appointments.</Typography>
+        </Box>
+        
       ) : (
         appointments.map((appt) => (
           <Paper key={appt._id} sx={{ p: 3, mb: 3 }}>

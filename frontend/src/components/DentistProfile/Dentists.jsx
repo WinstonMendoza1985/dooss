@@ -17,14 +17,11 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { format, parseISO } from 'date-fns';
-import Navigator from './Navigator';
+import Navigator from '../Navigator';
 
 const Dentists = () => {
   const [dentists, setDentists] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [rescheduleDialog, setRescheduleDialog] = useState({ open: false, appointment: null });
-  const [newDate, setNewDate] = useState('');
-  const [newTime, setNewTime] = useState('');
   const [statusMsg, setStatusMsg] = useState(null);
 
   //fetch users id
@@ -76,12 +73,16 @@ const Dentists = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    console.log('delete this id: '+id)
+  };
+
   return (
     <>
-    <Navigator/>
+    <Navigator />
     <Container maxWidth="md" sx={{ mt: 4, mb: 6 }}>
       <Typography variant="h4" gutterBottom fontWeight="bold">
-        Your Appointments
+       List of Dentist
       </Typography>
 
       {statusMsg && (
@@ -99,12 +100,26 @@ const Dentists = () => {
         dentists.map((dnts) => (
           <Paper key={dnts._id} sx={{ p: 3, mb: 3 }}>
             <Grid container justifyContent="space-between" alignItems="center">
-              <Grid item xs={12} sm={8}>
+              <Grid item xs={12} sm={6}>
                 <Typography variant="h6">
-                  {format(parseISO(dnts.appointment_date), 'PPPPp')}
+                  Dr. {dnts.first_name} {dnts.last_name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  Reason: {dnts.reason}
+                  Specialization: {dnts.specialization}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  License No: {dnts.license_number}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography >
+                  Availability:
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Days: {dnts.available_days.map((days)=> (days+', '))}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Time: starts at {dnts.available_hours.start} | ends at {dnts.available_hours.end}
                 </Typography>
               </Grid>
               <Grid item>
@@ -113,15 +128,15 @@ const Dentists = () => {
                   color="primary"
                   sx={{ mr: 1 }}
                   onClick={() =>
-                    setRescheduleDialog({ open: true, appointment: appt })
+                    handleUpdate(dnts._id)
                   }
                 >
-                  Reschedule
+                  Update
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
-                  onClick={() => handleCancel(appt._id)}
+                  onClick={() => handleDelete(dnts._id)}
                 >
                   Cancel
                 </Button>
@@ -130,41 +145,6 @@ const Dentists = () => {
           </Paper>
         ))
       )}
-
-      {/* Reschedule Dialog */}
-      <Dialog
-        open={rescheduleDialog.open}
-        onClose={() => setRescheduleDialog({ open: false, appointment: null })}
-      >
-        <DialogTitle>Reschedule Appointment</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            label="New Date"
-            type="date"
-            sx={{ my: 2 }}
-            InputLabelProps={{ shrink: true }}
-            value={newDate}
-            onChange={(e) => setNewDate(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            label="New Time"
-            type="time"
-            InputLabelProps={{ shrink: true }}
-            value={newTime}
-            onChange={(e) => setNewTime(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setRescheduleDialog({ open: false, appointment: null })}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={handleReschedule}>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Container>
     </>
   );

@@ -11,7 +11,7 @@ router.post('/register', async (req, res) => {
   try {
     const userExists = await User.findOne({ email });
     if (userExists) return res.status(400).json({ message: 'User already exists' });
-    console.log(date_of_birth);
+    
     const user = new User({ username, email, password, first_name, last_name, phone, date_of_birth });
     await user.save();
     res.status(201).json({ message: 'User registered successfully' });
@@ -49,10 +49,34 @@ router.get('/profile', async (req, res) => {
     const user = await User.findById(decoded.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    res.json({ username: user.username, email: user.email });
+    res.json({ username: user.username, email: user.email, my_profile: user });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
+});
+
+
+// PUT Client Update Profile
+router.put('/profile/update/:id', async (req, res) => {
+  const { id } = req.params;
+  const { first_name, last_name, phone, date_of_birth } = req.body;
+
+try {
+     const updated = await User.findByIdAndUpdate(
+       id,
+       { first_name: first_name, last_name: last_name, phone: phone, date_of_birth: date_of_birth  },
+       { new: true }
+     );
+ 
+     if (!updated) {
+       return res.status(404).json({ error: 'Client not found' });
+     }
+ 
+     res.json({ message: 'The profile of the client has been updated'});
+   } catch (err) {
+     console.error(err);
+     res.status(500).json({ error: 'Failed to update the profile' });
+   }
 });
 
 module.exports = router;

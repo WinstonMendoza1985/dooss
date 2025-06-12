@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { format, isBefore } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 import Navigator from './Navigator';
 
 // const loadDentists = [
@@ -47,6 +48,7 @@ const BookingPage = () => {
   const [selectedTime, setSelectedTime] = useState('');
   const [reason, setReason] = useState('General checkup');
   const [status, setStatus] = useState({ loading: false, success: null, error: null });
+  const navigate = useNavigate();
 
   // Temp users
   let user = localStorage.getItem('userID');
@@ -86,6 +88,7 @@ const BookingPage = () => {
     .then(() => {
       setStatus({ loading: false, success: 'Appointment scheduled successfully!', error: null });
       setSelectedTime('');
+      setTimeout(() => navigate('/dashboard'), 4000); // redirect to dashboard
     })
     .catch(() => {
       setStatus({ loading: false, success: null, error: 'Failed to book appointment. Try again.' });

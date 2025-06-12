@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box, Button, TextField, Typography, Container, Alert, FormGroup, FormControlLabel, Checkbox
 } from '@mui/material';
@@ -6,10 +6,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { format, isBefore } from 'date-fns';
 
-const UserRegister = () => {
+const NewDentist = () => {
   const [formData, setFormData] = useState({ first_name: '', last_name: '', email: '', specialization: '', available_days: [], available_hours: [{start:'',end:''}] });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [days, setDays] = useState([]);
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [timeStart, setTimeStart] = useState('09:00');
+  const [timeEnd, setTimeEnd] = useState('23:00');
   const navigate = useNavigate();
 
   const handleChange = e => {
@@ -18,6 +22,7 @@ const UserRegister = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log(formData);
     setError('');
     setSuccess('');
     try {
@@ -25,13 +30,32 @@ const UserRegister = () => {
       setSuccess(response.data.message);
       setTimeout(() => navigate('/dentists'), 1000); // redirect to login
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.response?.data?.message || 'Failed to create new dentist');
     }
   };
 
   const handleAvailableDays = (e) => {
-        
+    setDays({
+      ...days,
+      [e.target.name]: e.target.checked,
+    });
   }
+  
+  const handleTimeStart = (e) => {
+    setTimeStart(e.target.value);
+    setFormData(prev => ({ ...prev, available_hours: {start: timeStart, end: timeEnd} }));
+  }
+
+  const handleTimeEnd = (e) => {
+    setTimeEnd(e.target.value);
+    setFormData(prev => ({ ...prev, available_hours: {start: timeStart, end: timeEnd} }));
+  }
+
+  useEffect(()=>{
+    const selected = Object.keys(days).filter((key) => days[key]);
+    setSelectedDays(selected);
+    setFormData(prev => ({ ...prev, available_days: selected }));
+  },[days])
 
   return (
     <Container maxWidth="lg">
@@ -46,8 +70,8 @@ const UserRegister = () => {
           borderRadius: 2
         }}
       >
-        <Typography component="h1" variant="h5">
-          Register
+        <Typography component="h2" variant="h5">
+          Create new dentist profile
         </Typography>
         {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
         {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
@@ -76,21 +100,61 @@ const UserRegister = () => {
             />
             <TextField
             margin="normal"
+            required
             fullWidth
-            type="phone"
-            label="Phone"
-            name="phone"
+            label="Specialization"
+            name="specialization"
+            value={formData.specialization}
+            onChange={handleChange}
+            />
+            <TextField
+            margin="normal"
+            fullWidth
+            label="Email"
+            name="email"
             value={formData.email}
             onChange={handleChange}
             />
 
+            <TextField
+            margin="normal"
+            fullWidth
+            label="Phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            />
+
+            <Typography>
+              Available days:
+            </Typography>
             <FormGroup>
-                <FormControlLabel control={<Checkbox defaultChecked />} label="Monday" />
-                <FormControlLabel control={<Checkbox />} label="Tuesday" />
-                <FormControlLabel control={<Checkbox />} label="Wednesday" />
-                <FormControlLabel control={<Checkbox />} label="Thursday" />
-                <FormControlLabel control={<Checkbox />} label="Friday" />
+                <FormControlLabel control={<Checkbox onChange={handleAvailableDays} name='Monday' />} label="Monday" />
+                <FormControlLabel control={<Checkbox onChange={handleAvailableDays} name='Tuesday'/>} label="Tuesday" />
+                <FormControlLabel control={<Checkbox onChange={handleAvailableDays} name='Wednesday' />} label="Wednesday" />
+                <FormControlLabel control={<Checkbox onChange={handleAvailableDays} name='Thursday' />} label="Thursday" />
+                <FormControlLabel control={<Checkbox onChange={handleAvailableDays} name='Friday' />} label="Friday" />
             </FormGroup>
+
+            <TextField
+              margin="normal"
+              fullWidth
+              type="time"
+              label="Available Hours : starts"
+              name="available_hours.start"
+              value={formData.available_hours.start}
+              onChange={handleTimeStart}
+            />
+
+            <TextField
+              margin="normal"
+              fullWidth
+              type="time"
+              label="Available Hours : ends"
+              name="available_hours.end"
+              value={formData.available_hours.end}
+              onChange={handleTimeEnd}
+            />
 
             <br/>
             <Button
@@ -98,6 +162,7 @@ const UserRegister = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3 }}
+            onClick={handleSubmit}
             >
             Add New Dentist
             </Button>
@@ -108,4 +173,4 @@ const UserRegister = () => {
   );
 };
 
-export default UserRegister;
+export default NewDentist;
