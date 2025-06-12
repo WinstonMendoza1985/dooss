@@ -111,6 +111,7 @@ DOOSS/
 - PUT /api/appointments/reschedule/:id
 - DELETE /api/appointments/cancel/:id
 
+## Extras
 **Extra - Rate Limiter**
 - This runs an express rate limit
 - Applied in "server.js"
