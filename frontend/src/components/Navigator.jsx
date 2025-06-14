@@ -58,9 +58,9 @@ const Navigator = () => {
           }}
         > 
           <MenuItem onClick={handleAdminClose} component={Link} to="/profile">My Profile</MenuItem>
-          <MenuItem onClick={handleAdminClose} component={Link} to="/users">Client List</MenuItem>
-          <MenuItem onClick={handleAdminClose} component={Link} to="/dentists">Dentist List</MenuItem>
-          <MenuItem onClick={handleAdminClose} component={Link} to="/dentists/new">Create New Dentist</MenuItem>
+          <MenuItem onClick={handleAdminClose} component={Link} to="/users">Admin: Client list</MenuItem>
+          <MenuItem onClick={handleAdminClose} component={Link} to="/dentists">Admin: Dentist list</MenuItem>
+          <MenuItem onClick={handleAdminClose} component={Link} to="/dentists/new">Admin: Create new dentist</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

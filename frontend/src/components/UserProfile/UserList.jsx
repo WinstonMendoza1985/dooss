@@ -10,7 +10,7 @@ function UserList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3007/api/users')
+    axios.get('http://localhost:5000/api/users')
       .then(res => setUsers(res.data))
       .catch(err => console.error(err));
   }, []);

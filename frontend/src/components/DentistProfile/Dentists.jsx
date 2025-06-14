@@ -36,7 +36,7 @@ const Dentists = () => {
   const fetchDentists = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:3007/api/dentists`);
+      const res = await axios.get(`http://localhost:5000/api/dentists`);
       setDentists(res.data);
     } catch (err) {
       console.error(err);
@@ -49,7 +49,7 @@ const Dentists = () => {
   const handleRemove = async (id) => {
     if (!window.confirm('Are you sure you want to remove the dentist profile?')) return;
     try {
-      await axios.delete(`http://localhost:3007/api/dentists/remove/${id}`);
+      await axios.delete(`http://localhost:5000/api/dentists/remove/${id}`);
       setStatusMsg({ type: 'success', msg: 'Dentist record where removed.' });
       fetchDentists();
     } catch (err) {
@@ -62,7 +62,7 @@ const Dentists = () => {
     
     try {
       
-      await axios.put(`http://localhost:3007/api/dentists/update/${id}`, {
+      await axios.put(`http://localhost:5000/api/dentists/update/${id}`, {
         first_name: FormData.first_name,
       });
       setStatusMsg({ type: 'success', msg: 'Dentist details has been updated' });

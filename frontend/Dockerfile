@@ -1,5 +1,5 @@
 # Use official Node.js image as a base
-FROM node:18
+FROM node:18-alpine
 
 # Set the working directory
 WORKDIR /app
@@ -14,13 +14,14 @@ RUN npm install
 COPY frontend/ .
 
 # Build the React application
-RUN npm run build
+# RUN npm run build
 
-# Install a simple HTTP server to serve the build
-RUN npm install -g serve
+# # Install a simple HTTP server to serve the build
+# RUN npm install -g serve
 
 # Expose the application port
-EXPOSE 3000
+EXPOSE 8089
 
 # Serve the React application
-CMD ["serve", "-s", "build", "-l", "3000"]
+# CMD ["serve", "-s", "build", "-l", "99"]
+CMD ["npm", "run", "dev"]

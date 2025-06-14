@@ -5,6 +5,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { format, isBefore } from 'date-fns';
+import Navigator from '../Navigator';
 
 const NewDentist = () => {
   const [formData, setFormData] = useState({ first_name: '', last_name: '', email: '', specialization: '', available_days: [], available_hours: [{start:'',end:''}] });
@@ -26,7 +27,7 @@ const NewDentist = () => {
     setError('');
     setSuccess('');
     try {
-      const response = await axios.post('http://localhost:3007/api/dentists/new', formData);
+      const response = await axios.post('http://localhost:5000/api/dentists/new', formData);
       setSuccess(response.data.message);
       setTimeout(() => navigate('/dentists'), 1000); // redirect to login
     } catch (err) {
@@ -58,7 +59,9 @@ const NewDentist = () => {
   },[days])
 
   return (
-    <Container maxWidth="lg">
+    <>
+    <Navigator />
+    <Container maxWidth="md">
       <Box
         sx={{
           mt: 8,
@@ -170,6 +173,7 @@ const NewDentist = () => {
         </Box>
       </Box>
     </Container>
+    </>
   );
 };
 

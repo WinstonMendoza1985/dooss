@@ -23,7 +23,7 @@ const UserRegister = () => {
     setError('');
     setSuccess('');
     try {
-      const response = await axios.post('http://localhost:3007/api/auth/register', formData);
+      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
       setSuccess(`${response.data.message}. Email has been sent. SMS has been sent.`);
       setTimeout(() => navigate('/login'), 4000); // redirect to login
     } catch (err) {

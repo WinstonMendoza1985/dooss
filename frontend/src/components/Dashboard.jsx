@@ -40,8 +40,8 @@ const Dashboard = ({ userId }) => {
   const fetchAppointments = async () => {
     setLoading(true);
     try {
-      //const res = await axios.get(`http://localhost:3007/api/appointments/user/${userId}`);
-      const res = await axios.get(`http://localhost:3007/api/appointments/user/${user}`);
+      //const res = await axios.get(`http://localhost:5000/api/appointments/user/${userId}`);
+      const res = await axios.get(`http://localhost:5000/api/appointments/user/${user}`);
       setAppointments(res.data);
       console.log(res.data);
     } catch (err) {
@@ -55,7 +55,7 @@ const Dashboard = ({ userId }) => {
   const handleCancel = async (id) => {
     if (!window.confirm('Are you sure you want to cancel this appointment?')) return;
     try {
-      await axios.delete(`http://localhost:3007/api/appointments/cancel/${id}`);
+      await axios.delete(`http://localhost:5000/api/appointments/cancel/${id}`);
       setStatusMsg({ type: 'success', msg: 'Appointment canceled' });
       fetchAppointments();
     } catch (err) {
@@ -69,7 +69,7 @@ const Dashboard = ({ userId }) => {
 
     try {
       const updatedDateTime = new Date(`${newDate}T${newTime}`);
-      await axios.put(`http://localhost:3007/api/appointments/reschedule/${rescheduleDialog.appointment._id}`, {
+      await axios.put(`http://localhost:5000/api/appointments/reschedule/${rescheduleDialog.appointment._id}`, {
         appointment_date: updatedDateTime,
       });
       setStatusMsg({ type: 'success', msg: 'Appointment rescheduled' });

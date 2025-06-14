@@ -55,7 +55,7 @@ const BookingPage = () => {
 
   // Fetch dentists on load
   useEffect(() => {
-    axios.get('http://localhost:3007/api/dentists')
+    axios.get('http://localhost:5000/api/dentists')
       .then(res => setDentists(res.data))
       .catch(err => console.error(err));
     //setDentists(loadDentists);
@@ -65,7 +65,7 @@ const BookingPage = () => {
   useEffect(() => {
     if (selectedDentist && selectedDate) {
       axios
-        .get(`http://localhost:3007/api/appointments/slots`, {
+        .get(`http://localhost:5000/api/appointments/slots`, {
           params: { dentistId: selectedDentist, date: selectedDate }
         })
         .then(res => setAvailableSlots(res.data))
@@ -79,7 +79,7 @@ const BookingPage = () => {
 
     setStatus({ loading: true, success: null, error: null });
 
-    axios.post('http://localhost:3007/api/appointments', {
+    axios.post('http://localhost:5000/api/appointments', {
       dentist_id: selectedDentist,
       user_id: user,
       appointment_date: new Date(`${selectedDate}T${selectedTime}`),

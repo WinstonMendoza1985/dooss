@@ -18,7 +18,7 @@ const UserProfile = ({ token }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await axios.get('http://localhost:3007/api/auth/profile', {
+        const { data } = await axios.get('http://localhost:5000/api/auth/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(data);
@@ -34,7 +34,7 @@ const UserProfile = ({ token }) => {
   // const handleDelete = async (id) => {
   //   if (!window.confirm('Are you sure you want to delete this client or user?')) return;
   //   try {
-  //     await axios.delete(`http://localhost:3007/api/auth/delete/${id}`);
+  //     await axios.delete(`http://localhost:5000/api/auth/delete/${id}`);
   //     setStatusMsg({ type: 'success', msg: 'Client or user has been deleted' });
   //     fetchAppointments();
   //   } catch (err) {
@@ -47,7 +47,7 @@ const UserProfile = ({ token }) => {
     setError('');
     setSuccess('');
     try {
-      const response = await axios.put(`http://localhost:3007/api/auth/profile/update/${uid}`, formData);
+      const response = await axios.put(`http://localhost:5000/api/auth/profile/update/${uid}`, formData);
       setSuccess(`${response.data.message}. Email has been sent. SMS has been sent.`);
       setForUpdate(false);
       //setTimeout(() => navigate(`/profile/update/${uid}`), 100); 
@@ -72,7 +72,7 @@ const UserProfile = ({ token }) => {
   return (
     <>
     <Navigator />
-    <Container>
+    <Container maxWidth="md">
       {user ? (
         <>
           {statusMsg && (
